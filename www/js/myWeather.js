@@ -54,7 +54,6 @@
 		                  dataType:'jsonp',
 		                   success: function(result){
 		                   	self.handleHistoricalDataReults(result, weatherDataArray, dataCount)
-				           	self.handleWeatherDataInLocalStorage()
 				           }
 					})
 
@@ -71,6 +70,8 @@
 			if(weatherDataArray.length===dataCount){
 			  	localStorage.setItem('weatherDataArray', weatherDataArray)
 			  	self.setExpirationDate()
+			  	self.handleWeatherDataInLocalStorage()
+
 			  }
 		},
 		setExpirationDate:function(){
