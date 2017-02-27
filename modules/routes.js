@@ -10,7 +10,7 @@ module.exports = {
 		console.log('homeroutes')
 		console.log(__dirname)
 			// res.sendFile(__dirname+'/../index.html')
-			// res.sendFile(home+'index.html')
+			res.sendFile(home+'index.html')
 	}
 
 
