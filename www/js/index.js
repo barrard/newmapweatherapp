@@ -1,0 +1,3 @@
+
+app.initialize();
+// myMaps.getUserLocation()
