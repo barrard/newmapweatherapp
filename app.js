@@ -1,3 +1,12 @@
+var production = true;
+var development = false;
+var port;
+if(production){
+	port = 80
+}else{
+	port=4444
+}
+
 var express = require('express')
 var http = require('http')
 var socketio = require('socket.io')
@@ -20,6 +29,6 @@ app.use(express.static('www'));
 
 
 
-server.listen(4444)
+server.listen(port)
 
-console.log('app listeiong on port 4444')
+console.log('app listeiong on port '+port)
