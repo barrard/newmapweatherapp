@@ -1,4 +1,4 @@
-var production = true;
+var production = false;
 var development = false;
 var port;
 if(production){
