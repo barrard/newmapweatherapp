@@ -77,23 +77,26 @@
 		setExpirationDate:function(){
 			console.log('setting expirationDate')
 			var now = new Date()
-			var resetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours()-23)
-			console.log(resetTime.getTime())
-			localStorage.setItem('weatherDataExpiration', resetTime.getTime())
+			localStorage.setItem('weatherDataExpiration', now.getDate())
 
 		},
 		findLatestDataInLocalStorage:function (){
 			var latestDate = localStorage.getItem('weatherDataExpiration')
+			console.log('date ')
 			if(latestDate===null){
 				console.log('null')
 				return false
 			}else{
 				var timeNow = new Date()
-				var resetTime = new Date(timeNow.getFullYear(), timeNow.getMonth(), timeNow.getDate(), timeNow.getHours()-23)
+					timeNow=timeNow.getDate()
+					// latestDate=new Date(latestDate)
+					// latestDate=latestDate.getDate()
+				// var resetTime = new Date(timeNow.getFullYear(), timeNow.getMonth(), timeNow.getDate(), timeNow.getHours()-23)
 				console.log('Latest '+latestDate)
-				console.log('timeNow '+resetTime.getTime())
-				console.log((latestDate)-resetTime)
-				return latestDate<=resetTime
+				console.log('timeNow '+timeNow)
+				// console.log('timeNow '+resetTime.getTime())
+				// console.log((latestDate)-resetTime)
+				return parseInt(latestDate)===timeNow
 
 			}
 		},
