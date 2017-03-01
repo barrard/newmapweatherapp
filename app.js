@@ -1,4 +1,4 @@
-var production = false;
+var production = true;
 var development = false;
 
 var express = require('express')
@@ -12,13 +12,13 @@ var socketRoutes = require('./modules/socketRoutes')
 var app = express()
 var io = socketio(server, {
 	transports:['websocket', 'polling']
-})
+});
 
 var port;
 if(production){
 	var secureRedirPort = 80
 	port = 443
-	sslOptions = require('./modules/sslOptions').sslOptions
+	sslOptions = require('./modules/sslOptions/sslOptions.js').sslOptions;
 	secureServer = https.createServer(sslOptions, app);
 	server = http.createServer(app)
 	server.listen(secureRedirPort)
