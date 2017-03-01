@@ -1,4 +1,4 @@
-var production = true;
+var production = false;
 var development = false;
 
 var express = require('express')
@@ -26,8 +26,8 @@ if(production){
 	app.all('/*', function(req, res, next) {   
 	 if (/^http$/.test(req.protocol)) {
 	    var host = req.headers.host.replace(/:[0-9]+$/g, ""); // strip the port # if any
-	    if ((HTTPS_PORT != null) && HTTPS_PORT !== 443) {
-	      return res.redirect(301, "https://" + host + ":" + HTTPS_PORT + req.url);
+	    if ((port != null) && port !== 443) {
+	      return res.redirect(301, "https://" + host + ":" + port + req.url);
 	    } else {
 	      return res.redirect(301, "https://" + host + req.url);
 	    }
