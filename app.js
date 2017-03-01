@@ -10,9 +10,7 @@ var socketio = require('socket.io')
 var routes = require('./modules/routes')
 var socketRoutes = require('./modules/socketRoutes')
 var app = express()
-var io = socketio(server, {
-	transports:['websocket', 'polling']
-});
+
 
 var port;
 if(production){
@@ -20,6 +18,9 @@ if(production){
 	port = 443
 	sslOptions = require('./modules/sslOptions/sslOptions.js').sslOptions;
 	secureServer = https.createServer(sslOptions, app);
+	var io = socketio(secureServer, {
+		transports:['websocket', 'polling']
+	});
 	server = http.createServer(app)
 	server.listen(secureRedirPort)
 	secureServer.listen(port)
@@ -42,6 +43,10 @@ if(production){
 }else{
 	port=4444
 	server = http.createServer(app)
+	var io = socketio(server, {
+		transports:['websocket', 'polling']
+	});
+
 	server.listen(port)
 
 
