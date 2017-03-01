@@ -1,4 +1,10 @@
-var socket = io.connect('http://meetapp.us/');
+if(window.location.protocol === "https:"){
+	var socket = io.connect('https://meetapp.us/');
+
+}else{
+	var socket = io.connect('http://meetapp.us/');
+
+}
 // var socket = io.connect('http://192.168.200.89:4444/');
 // var socket = io.connect();
 socket.emit('userData', userData)
