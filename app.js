@@ -1,22 +1,53 @@
 var production = false;
 var development = false;
-var port;
-if(production){
-	port = 80
-}else{
-	port=4444
-}
 
 var express = require('express')
 var http = require('http')
+var https = require('https')
+var server;
+var secureServer;
 var socketio = require('socket.io')
 var routes = require('./modules/routes')
 var socketRoutes = require('./modules/socketRoutes')
 var app = express()
-var server = http.createServer(app)
 var io = socketio(server, {
 	transports:['websocket', 'polling']
 })
+
+var port;
+if(production){
+	var secureRedirPort = 80
+	port = 443
+	sslOptions = require('./modules/sslOptions').sslOptions
+	secureServer = https.createServer(sslOptions, app);
+	server = http.createServer(app)
+	server.listen(secureRedirPort)
+	secureServer.listen(port)
+	app.all('/*', function(req, res, next) {   
+	 if (/^http$/.test(req.protocol)) {
+	    var host = req.headers.host.replace(/:[0-9]+$/g, ""); // strip the port # if any
+	    if ((HTTPS_PORT != null) && HTTPS_PORT !== 443) {
+	      return res.redirect(301, "https://" + host + ":" + HTTPS_PORT + req.url);
+	    } else {
+	      return res.redirect(301, "https://" + host + req.url);
+	    }
+	  } else {
+	    return next();
+	  }
+	});
+
+
+
+
+}else{
+	port=4444
+	server = http.createServer(app)
+	server.listen(port)
+
+
+}
+
+
 
 io.on('connection', function(socket){
 	socketRoutes.socketRoutes(socket)
@@ -29,6 +60,5 @@ app.use(express.static('www'));
 
 
 
-server.listen(port)
 
 console.log('app listeiong on port '+port)
