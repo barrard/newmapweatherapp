@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.hellocordova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>HelloCordova</name>
+<widget android-versionCode="13" id="us.meetapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>MeetApp</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Lets Meet App.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
+    <author email="barrard@gmail.com" href="https://meetapp.us">
         Apache Cordova Team
     </author>
     <content src="index.html" />
@@ -16,6 +16,9 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#A7A7A7" />
+    <preference name="StatusBarStyle" value="blacktranslucent" />
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
@@ -23,4 +26,11 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <plugin name="cordova-plugin-statusbar" spec="~2.1.0" />
+    <plugin name="cordova-plugin-console" spec="~1.0.2" />
+    <plugin name="cordova-plugin-dialogs" spec="~1.2.0" />
+    <plugin name="phonegap-plugin-push" spec="~1.9.4">
+        <variable name="SENDER_ID" value="248538896148" />
+    </plugin>
 </widget>

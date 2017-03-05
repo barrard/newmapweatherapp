@@ -148,13 +148,14 @@ function locationDetails(coords){
 function makeAddressSelectionBox(addressArray){
 
   var container = document.createElement('div')
-  div.classList.add('modal-container')
-  div.classList.add('grow-transition')
+  container.classList.add('modal-container')
+  
   console.log(addressArray)
   var len = addressArray.length;
   for(var x = 0;x<len;x++){
     console.log(addressArray[x].formatted_address)
   }
+  container.classList.add('grow-transition')
 }
 
 
