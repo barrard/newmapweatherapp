@@ -17,10 +17,24 @@
     $('body').append('<div id="userInfoDisplay" class="animated jello"></div>')
     var userInfoDisplay=$('#userInfoDisplay')
     userInfoStr= '';
-    $(userInfoDisplay).append( JSON.stringify(userData.serverData.ua, null, 6))
-    $(userInfoDisplay).one('animationend', function(){
-      $(userInfoDisplay).removeClass('animated jello')
-    })
+    userInfoStr+= 'Your registrationId for push is:  '+localStorage.getItem('registrationId')
+    userInfoStr+= '<hr><br>Your sessionId for your login is:  '+localStorage.getItem('sessionId')
+    $(userInfoDisplay).append( userInfoStr)
+    if(localStorage.getItem('sessionId')===null){
+      $(userInfoDisplay).append(`
+        <br><hr>
+        <div class='niceDisplay'>
+        <input id ="userLoginUsername" type="text" name ='username' placeholder="required name" required><br>
+        <input id ="userLoginPassword" type="text" name="password" placeholder="optional password"><br>
+        <input onclick= "userLoginBtnClicked()" type="submit" value="login">
+          `)
+    }else{
+      $(userInfoDisplay).append('<span>Welcome user</span>')
+    }
+    // $(userInfoDisplay).append( JSON.stringify(userData.serverData.ua, null, 6))
+    // $(userInfoDisplay).one('animationend', function(){
+    //   $(userInfoDisplay).removeClass('animated jello')
+    // })
   }
 
 

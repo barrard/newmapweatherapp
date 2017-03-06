@@ -125,13 +125,15 @@ h1 {
 }
 
 #userInfoDisplay{
+  z-index: 999;
   position: absolute;
-  width: 25%;
-  top: 50%;
-  right: 50%;
+  width: 50%;
+  top: 25%;
+  right: 25%;
   border-radius: 20px;
   box-shadow: 10px 10px 100px 100px black;
   border: 1px solid red;
+  background-color: white;
 }
 
    .labels {
@@ -195,6 +197,14 @@ h1 {
   width: 100px;
   height:100px;
 }
+
+.niceDisplay{
+  display: flex;
+}
+.niceDisplay >*{
+  padding: 5px;
+}
+
 
 
 

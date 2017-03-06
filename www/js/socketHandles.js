@@ -11,14 +11,23 @@
 // }
 
 //testting....
-var socket = io.connect('http://192.168.200.89:4444/');
+ Gsocket = io.connect('http://192.168.200.89:4444/');
+
 // var socket = io.connect();
-socket.emit('userData', userData)
-socket.on('userConnected', function(data){
+// Gsocket.emit('userData', userData)
+Gsocket.on('userConnected', function(data){
 	console.log('userConnected')
 	delete data.ua.ua
 	userData.serverData = data
-	console.log(userData)
+	// console.log(userData)
+	Gsocket.emit('userData', userData)
 
+
+})
+
+Gsocket.on('someMoreUserData', function(data){
+	console.log('user data from server')
+	console.log(data)
+	console.log('user data from server')
 })
 

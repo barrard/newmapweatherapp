@@ -1,5 +1,8 @@
-var pushNotificationModule = {
-	init:function(){
+pushNotificationModule = {
+	getSocket:function(socket){
+		return socket
+	},
+	init:function(Gsocket){
 		var push = PushNotification.init({
 		     "android": {
 		         "senderID": 248538896148
@@ -13,15 +16,38 @@ var pushNotificationModule = {
 		 });
 	
 		push.on('registration', function(data) {
+
 	        console.log(data)
+
 	         console.log("registration event: " + data.registrationId);
 	         document.getElementById("regId").innerHTML = data.registrationId;
 	         var oldRegId = localStorage.getItem('registrationId');
 	         if (oldRegId !== data.registrationId) {
 	             // Save new registration ID
 	             localStorage.setItem('registrationId', data.registrationId);
+	             
+	             Gsocket.emit('pushRegistrationId', data.registrationId)
 	             // Post registrationId to your app server as the value has changed
 	         }
+	         $.ajax({
+	         	method:'post',
+	         	data:data,
+	         	dataType:'json',
+	         	url:'http://192.168.200.89:4444/registrationIdPost',
+	         	complete:function(data){
+	         		console.log(data)
+	         	},
+	         	success:function(data){
+	         		console.log(data)
+	         	},
+	         	error:function(jq, status, error){
+	         		console.log('err')
+	         		console.log(jq)
+	         		console.log(status)
+	         		console.log(error)
+
+	         	}
+	         })
 	     });
 
 

@@ -7,10 +7,22 @@ var http = require('http')
 var https = require('https')
 var server;
 var secureServer;
-var socketio = require('socket.io')
-var routes = require('./modules/routes')
-var socketRoutes = require('./modules/socketRoutes')
+var bodyParser = require('body-parser')
+
 var app = express()
+
+var socketio = require('socket.io')
+var routes = require('./modules/routes')(app)
+var socketRoutes = require('./modules/socketRoutes')
+
+
+
+
+
+
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
 
 
 var port;
@@ -54,13 +66,25 @@ if(production){
 }
 
 
-
 io.on('connection', function(socket){
+ socketFunctions = require('./modules/socketFunctions')(socket)
 	socketRoutes.socketRoutes(socket)
+	socketFunctions.sendUserData('winning')
 })
 app.get('/', function(req, res, next){
 	routes.homeRoute(req, res, next)
 })
+app.post('/registrationIdPost', function(req, res, next){
+	routes.registrationIdPost(req, res, next)
+})
+app.get('/userLogin', function(req, res, next){
+	routes.userLogin(req, res, next)
+})
+
+
+
+
+
 app.use('/scripts', express.static(__dirname + '/node_modules/'));
 app.use(express.static('www'));
 
