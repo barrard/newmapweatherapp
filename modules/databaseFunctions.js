@@ -21,6 +21,25 @@ function connectionToMongoCollection(collectionName, callback){
 	})
 }
 
+function insertOne(data, collection, options){
+	if((typeof options==='Object')&&(!Array.isArray(options))){
+		var options = options
+	}else{
+		options={}
+	}
+	connectionToMongoCollection(collection, function(db, col){
+		col.insertOne(data, function(err, item){
+			if(serverFunctions.handleError(err)){
+				console.log('Data inserted')
+				console.log(item.result)
+			}
+		})
+		db.close()
+	})
+
+
+}
+
 
 
 
@@ -28,7 +47,16 @@ function connectionToMongoCollection(collectionName, callback){
 
 exports.dataBase={
 	//userdata is {username:username, password:password}
-	findUser:function(userData){
+	createNewUser:function(userData){
+		insertOne(userData, 'users', {options:'options'})
+	},
+	loginUser:function(userData){
+
+	},
+
+
+	findUser:function(userData, callback){
+		var self = this
 		console.log('lets find the user')
 		console.log(userData)
 		connectionToMongoCollection('users', function(db, col){
@@ -36,8 +64,14 @@ exports.dataBase={
 				if(serverFunctions.handleError(err)){
 					if(item===null){
 						console.log('user doesnt exist')
+						callback('user doesnt exist, creating new user')
+						self.createNewUser(userData)
 					}else{
 						console.log('user does exist')
+						console.log(item)
+						callback('user does exist')
+						self.loginUser()
+
 					}	
 				}
 				db.close()
@@ -53,7 +87,7 @@ exports.dataBase={
 
 
 exports.init = function(app){
-
+console.log('IIINNNIIITTTTT DATABSE!!!')
 	var MongoStore = require('connect-mongo')(session);
 
 	var sessionOptions = {
@@ -71,7 +105,7 @@ exports.init = function(app){
   	
   	httpOnly:false,
   	secure:false,
-    maxAge:1000*60*60//one hour
+    maxAge:1000*60*60*24*365//one year
   }
 }
 app.use(session(sessionOptions))

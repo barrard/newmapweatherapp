@@ -136,6 +136,14 @@ h1 {
   background-color: white;
 }
 
+.shelf{
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: inset 0px 0px 20px 5px #eee;
+
+}
+
    .labels {
      color: red;
      background-color: white;
@@ -199,12 +207,16 @@ h1 {
 }
 
 .niceDisplay{
-  display: flex;
+  display: block;
 }
 .niceDisplay >*{
-  padding: 5px;
+  padding: 15px;
+  margin:15px;
 }
-
+#loginResults{
+  border: 1px solid #fff;
+  float: right;
+}
 
 
 

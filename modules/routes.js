@@ -5,24 +5,36 @@ dir=dir.split('/')
 dir.length= dir.length-1
 dir=dir.join('/')
 var home = dir+'/www/'
+
+var parser = require('ua-parser-js');
+
 var userData = require('./data.js')
 var databaseFunctions = require('./databaseFunctions')
+var serverFunctions = require('./serverFunctions')
 
 module.exports = function(app){
+	console.log('routes!!!!!!!!!!!!!!!!!!!!.JJJSSSSS')
 	var bodyParser = require('body-parser');
 	var databaseFunctionsInit = require('./databaseFunctions').init(app)
 	function sessionRegister(req){
 
-				console.log('+++++++++++++++++++++++++++++')
-		console.log(req.session)
-		console.log(req.session.id)
+				// console.log('+++++++++++++++++++++++++++++')
+		// console.log(req.session)
+		// console.log(req.session.id)
 		console.log(userData.getData())
 
-				console.log('+++++++++++++++++++++++++++++')
+				// console.log('+++++++++++++++++++++++++++++')
 	}
 return {
+
 	homeRoute:function(req, res, next){
-		console.log('????????????????????????????????????????????')
+		console.log('-----------HOME   ROUTE-------------')
+		console.log('req.session.id')
+		console.log(req.session.id)
+		console.log('req.session')
+		console.log(req.session)
+
+
 
 var cookieString = req.headers.cookie
 console.log('COOKIE STRING')
@@ -57,8 +69,14 @@ for(var k = 0;k<cookieArr.length;k++){
 	userLogin:function(req, res, next){
 		// console.log('did we make it this far yet?')
 		// console.log(req.query)
-		res.send(req.query)
-		databaseFunctions.dataBase.findUser(req.query)
+		if(serverFunctions.verifyUserLoginData(req.query)){
+			databaseFunctions.dataBase.findUser(req.query, function(resultFromDB){
+			res.send(resultFromDB)
+			})
+		}else{
+			res.send('Your data doesnt meet a certain criteria')
+		}
+
 	}
 
 }

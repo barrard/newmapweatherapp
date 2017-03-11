@@ -1,3 +1,6 @@
+var SocketSingleton = 'this'
+console.log(SocketSingleton)
+
 //un coment for production
 // if(window.location.protocol === "https:" || window.location.protocol === "file:"){
 // 	var socket = io.connect('https://meetapp.us/');
@@ -11,7 +14,7 @@
 // }
 
 //testting....
- Gsocket = io.connect('http://192.168.200.89:4444/');
+ Gsocket = io.connect('http://192.168.200.93:4444/');
 
 // var socket = io.connect();
 // Gsocket.emit('userData', userData)

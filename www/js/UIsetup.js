@@ -14,7 +14,11 @@
       return
     }
     console.log('user Info')
-    $('body').append('<div id="userInfoDisplay" class="animated jello"></div>')
+    $('body').append(`
+        <div id="userInfoDisplay"class="animated jello">
+  
+        </div>
+      `)
     var userInfoDisplay=$('#userInfoDisplay')
     userInfoStr= '';
     userInfoStr+= 'Your registrationId for push is:  '+localStorage.getItem('registrationId')
@@ -24,9 +28,11 @@
       $(userInfoDisplay).append(`
         <br><hr>
         <div class='niceDisplay'>
-        <input id ="userLoginUsername" type="text" name ='username' placeholder="required name" required><br>
-        <input id ="userLoginPassword" type="text" name="password" placeholder="optional password"><br>
+        <input id ="userLoginUsername" class="shelf" type="text" name ='username' placeholder="required name" required><br>
+        <input id ="userLoginPassword" class="shelf" type="text" name="password" placeholder="optional password"><br>
         <input onclick= "userLoginBtnClicked()" type="submit" value="login">
+         <div id='loginResults' class="shelf"><div>
+         </div>
           `)
     }else{
       $(userInfoDisplay).append('<span>Welcome user</span>')

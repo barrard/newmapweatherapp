@@ -11,4 +11,10 @@ module.exports = {
 			return true
 		}
 	},
+	verifyUserLoginData:function(userData){
+		console.log('verify')
+
+		console.log(userData)
+		return true
+	}
 }

@@ -1,11 +1,19 @@
 pushNotificationModule = {
-	getSocket:function(socket){
-		return socket
-	},
-	init:function(Gsocket){
+
+	init:function(){
 		var push = PushNotification.init({
 		     "android": {
-		         "senderID": 248538896148
+		         "senderID": 248538896148,
+		         "sound": true,
+		         "vibrate": true,
+		         "forceShow":true,
+		         "badge": true,
+		         "icon":"icon",
+		         "iconColor":"green",
+		         // "clearNotifications":false,
+		         "messageKey":"message",
+		         "titleKey":"title"
+
 		     },
 		     "ios": {
 		       "sound": true,
@@ -16,9 +24,9 @@ pushNotificationModule = {
 		 });
 	
 		push.on('registration', function(data) {
-
 	        console.log(data)
-
+	        var cards = document.getElementById("cards");
+	        var button = '<button onclick="clearAllNotifications()"></button>'
 	         console.log("registration event: " + data.registrationId);
 	         document.getElementById("regId").innerHTML = data.registrationId;
 	         var oldRegId = localStorage.getItem('registrationId');
@@ -26,14 +34,13 @@ pushNotificationModule = {
 	             // Save new registration ID
 	             localStorage.setItem('registrationId', data.registrationId);
 	             
-	             Gsocket.emit('pushRegistrationId', data.registrationId)
 	             // Post registrationId to your app server as the value has changed
 	         }
 	         $.ajax({
 	         	method:'post',
 	         	data:data,
 	         	dataType:'json',
-	         	url:'http://192.168.200.89:4444/registrationIdPost',
+	         	url:'http://192.168.200.93:4444/registrationIdPost',
 	         	complete:function(data){
 	         		console.log(data)
 	         	},
@@ -55,6 +62,7 @@ pushNotificationModule = {
 		    console.log("push error = " + e.message);
 		});
 		push.on('notification', function(data) {
+			setBadge(successHandler, errosHandler, {badge:data.badge})
 		    console.log('notification event');
 		    console.log(data)
 		    var cards = document.getElementById("cards");
@@ -70,7 +78,17 @@ pushNotificationModule = {
 		      ' </div>' +
 		      '</div>';
 		    cards.innerHTML += push;
-		});
+		})
+		function setBadge(successHandler, errosHandler, numb){
+			push.setApplicationIconBadgeNumber(successHandler, errosHandler, numb)
+}
+		function successHandler(d){
+			console.log('success'+d)
+		}
+
+		function errosHandler(d){
+			console.log('fail'+d)
+		}
 
 
 

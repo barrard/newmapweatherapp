@@ -31,12 +31,7 @@
         console.log('deviceready event has fired');
         // window.location.host="http://192.168.200.89"
         // window.location.port="4444"
-        if(Gsocket){
-            console.log('yes')
-            pushNotificationModule.init(Gsocket)
-        }else{
-            console.log('no')
-        }
+            pushNotificationModule.init()
 
     },
 

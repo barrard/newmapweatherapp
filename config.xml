@@ -20,6 +20,7 @@
     <preference name="StatusBarBackgroundColor" value="#A7A7A7" />
     <preference name="StatusBarStyle" value="blacktranslucent" />
     <platform name="android">
+        <icon src="./platforms/android/res/icon.png"/>
         <allow-intent href="market:*" />
     </platform>
     <platform name="ios">
