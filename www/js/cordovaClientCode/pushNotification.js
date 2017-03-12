@@ -8,8 +8,8 @@ pushNotificationModule = {
 		         "vibrate": true,
 		         "forceShow":true,
 		         "badge": true,
-		         "icon":"icon",
-		         "iconColor":"green",
+		         "icon":"icont",
+		         "iconColor":"red",
 		         // "clearNotifications":false,
 		         "messageKey":"message",
 		         "titleKey":"title"
@@ -62,7 +62,7 @@ pushNotificationModule = {
 		    console.log("push error = " + e.message);
 		});
 		push.on('notification', function(data) {
-			setBadge(successHandler, errosHandler, {badge:data.badge})
+			setBadge(successHandler, errosHandler, 5)
 		    console.log('notification event');
 		    console.log(data)
 		    var cards = document.getElementById("cards");
@@ -78,6 +78,14 @@ pushNotificationModule = {
 		      ' </div>' +
 		      '</div>';
 		    cards.innerHTML += push;
+		    //only for iOS
+		    push.finish(function() {
+		        console.log('success');
+		    }, function() {
+		        console.log('error');
+		    });
+
+
 		})
 		function setBadge(successHandler, errosHandler, numb){
 			push.setApplicationIconBadgeNumber(successHandler, errosHandler, numb)
@@ -88,6 +96,16 @@ pushNotificationModule = {
 
 		function errosHandler(d){
 			console.log('fail'+d)
+		}
+
+		function accept() {
+		  alert("Accepted");
+		}
+		function reject() {
+		  alert("Rejection!");
+		}
+		function maybe() {
+		  alert("Maybe, I dunno. I can't tell for sure");
 		}
 
 

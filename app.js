@@ -1,7 +1,10 @@
 var production = false;
 var development = false;
 
-
+var logger = require('tracer').colorConsole({
+                    format : "{{timestamp}} <{{title}}> {{message}} (in {{file}}:{{line}})",
+                    dateformat : "HH:MM:ss.L"
+                });
 var express = require('express')
 var http = require('http')
 var https = require('https')
@@ -83,71 +86,7 @@ app.get('/userLogin', function(req, res, next){
 })
 var request = require('request');
 app.get('/sendfcm', function(req, res, next){
-console.log('attempting to send fcm')
-	function sendMessageToUser(deviceId) {
-		var id = 'AAAAOd4SlxQ:APA91bEJEdNfW-NJezYJcWhKpeR-BvzN41jqZsdppChugAuoVUU7zHuYILvau-UvvHIfobSHvdscwx0xtprOTNPJpvPoA1WSql30ndY0mTBMTGKwRYr3eubkTAbOCcpSezcwcFudoHpF'
-
-	  request({
-	    url: 'https://fcm.googleapis.com/fcm/send',
-	    method: 'POST',
-	    headers: {
-	      'Content-Type' :' application/json',
-	      'Authorization': 'key='+id
-	    },
-	    body: JSON.stringify(
-	      { "notification": {
-	      	"Nick" : "Mario",
-	      	"body" : "great match!",
-	      	"Room" : "PortugalVSDenmark"
-	      },
-	      	"priority":"high",
-	        "to" : deviceId
-	      }
-	    )
-	    // body: JSON.stringify(
-	    //   { "data": {
-	    //   	"Nick" : "Mario",
-	    //   	"body" : "great match!",
-	    //   	"Room" : "PortugalVSDenmark"
-	    //   },
-	    //     "to" : deviceId
-	    //   }
-	    // )
-	    // body: JSON.stringify(
-	    //   { "data": {
-	    //     "message": message
-	    //   },
-	    //     "to" : deviceId
-	    //   }
-	    // )
-
-	  }, function(error, response, body) {
-	    if (error) { 
-	      console.error(error, response, body); 
-	    }
-	    else if (response.statusCode >= 400) { 
-	      console.error('HTTP Error: '+response.statusCode+' - '+response.statusMessage+'\n'+body); 
-	    }
-	    else {
-	      console.log('Done!')
-	    }
-	  });
-
-
-
-
-
-}
-
-sendMessageToUser(
-	"cwG5_1BK9Pc:APA91bHBjYeB7pRzh1qYojsgWpwrbAc8WO7lbVB-4Yczxtd23RTntgythQoo6AgGFdqL-vGoUQSr6hvKyFQB5L7-CXtoouKdsKlvfSbZByQDmye1RfBjQwCUuh7NedaOogO8xj690p9F"
-  // "fDBxjLdxK7M:APA91bF9UIVubI6WOOiDTIHpLWQwfJk2tKMC1_FApqXr48kVQnobaDTrzoKk-QMK8JRkE70BXpFkoS3KKNihVyepVGwd5NIVEuGQcTofNW8_gMHLV-BRHVHBOEMou-us-px2e5uV2wJ7"
-  // "epNl4HIJ2qg:APA91bHQq6xIvTLcAtzRlU6qFFmtIDzF0pbcHW54CXY3Ws1LvNEuO8ewYnPuyuM--5TkwDClh2OumaQO7_KDmXAvba-qX4b8UOrLCRVOcyCHs2AAnMLSlpLnqyRPU-eboq42ijA1kRa4"
-
-  //, { message: 'Hello puf'}
-);
-
-res.send('nice try')
+	routes.sendPushnotification(req, res, next)
 
 })
 
@@ -161,4 +100,4 @@ app.use(express.static('www'));
 
 
 
-console.log('app listeiong on port '+port)
+logger.log('app listeiong on port '+port)

@@ -1,4 +1,10 @@
 var TheUserData = require('./data');
+var logger = require('tracer').colorConsole({
+                    format : "{{timestamp}} <{{title}}> {{message}} (in {{file}}:{{line}})",
+                    dateformat : "HH:MM:ss.L"
+                });
+
+
 module.exports={
 	socketRoutes:function(socket){
 		var socketFunctions = require('./socketFunctions')(socket)
@@ -7,7 +13,7 @@ module.exports={
 
 
 		// for(var k in socket){
-		// 	console.log(k)
+		// 	logger.log(k)
 		// }
 		// var  TUAD= TheUserData.getData()
 		// console.log('The user getData() function returned')
@@ -39,13 +45,13 @@ module.exports={
 		})
 
 		socket.on('registerEvent', function(data){
-			console.log('registerEvent')
-			console.log(data)
+			logger.log('registerEvent')
+			logger.log(data)
 		})
 
 		socket.on('pushRegistrationId', function(deviceRegistrationId){
-			console.log('pushRegistration Number')
-			console.log(deviceRegistrationId)
+			logger.log('pushRegistration Number')
+			logger.log(deviceRegistrationId)
 		})
 	}
 }

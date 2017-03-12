@@ -33,7 +33,7 @@
         // window.location.port="4444"
             pushNotificationModule.init()
 
-    },
+    }
 
 
 };

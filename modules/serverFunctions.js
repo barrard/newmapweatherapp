@@ -1,20 +1,24 @@
+var logger = require('tracer').colorConsole({
+                    format : "{{timestamp}} <{{title}}> {{message}} (in {{file}}:{{line}})",
+                    dateformat : "HH:MM:ss.L"
+                });
 
 
 module.exports = {
 	handleError:function(err){
 		if(err){
-			console.log('-----HandleError helper function found an error------')
-			console.log(err)
-			console.log('------End of error-------')
+			logger.log('-----HandleError helper function found an error------')
+			logger.log(err)
+			logger.log('------End of error-------')
 			return false
 		}else{
 			return true
 		}
 	},
 	verifyUserLoginData:function(userData){
-		console.log('verify')
+		logger.log('verify')
 
-		console.log(userData)
+		logger.log(userData)
 		return true
 	}
 }

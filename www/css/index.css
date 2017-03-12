@@ -68,12 +68,27 @@ h1 {
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
- 
- #map {
+ .mainContent{
   border-radius: 10px;
-        height: 400px;
-        width: 100%;
-       }
+  border: solid 3px coral;
+  height: 400px;
+  width: 100%;
+ }
+ #map {
+  display: block;
+  height: 400px;
+  width: 100%;
+ }
+ #people {
+  display: none;
+  height: 400px;
+  width: 100%;
+ }
+ #places {
+  display: none;
+  height: 400px;
+  width: 100%;
+ }
 .mainNav{
   display: inline;
 }
@@ -216,6 +231,18 @@ h1 {
 #loginResults{
   border: 1px solid #fff;
   float: right;
+}
+
+.bottom{
+  position: absolute;
+  bottom: 0px;
+
+}
+
+.left{
+  position: absolute;
+  left: 0px;
+
 }
 
 

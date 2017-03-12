@@ -6,10 +6,11 @@ var userLoginBtnClicked=function(){
 			username:username,
 			password:password
 		}
-	helpers.verifyUserLoginData()
-	$.get('http://192.168.200.89:4444/userLogin', userData)
+	helpers.verifyUserLoginData(userData)
+	// $.get('http://192.168.200.93:4444/userLogin', userData)
+	$.get('http://192.168.200.93:4444/userLogin', userData)
 		.done(function(data){
-			$('#loginResults').html('data')
+			$('#loginResults').text('data')
 		})
 		.success(function(data){
 			console.log('succes?')

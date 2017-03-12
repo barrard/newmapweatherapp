@@ -5,7 +5,11 @@ myMaps = {
   maximumAge        : 30000, 
   timeout           : 27000
 },
+hasStarted:false,
   getUserLocation:function(){
+    if(this.hasStarted === false){
+      this.hasStarted=true
+    
     var self = this
     if ("geolocation" in navigator) {
       userData.geolocation = true
@@ -13,6 +17,10 @@ myMaps = {
     } else {
       BackupGPSStrategy()
     }
+  }else{
+    console.log('already has started')
+    return
+  }
 
 
    

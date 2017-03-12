@@ -3,11 +3,15 @@ var url = 'mongodb://localhost:27017/newMapApp';
 var MongoClient = require('mongodb').MongoClient
 var session=require('express-session')
 var serverFunctions = require('./serverFunctions')
+var logger = require('tracer').colorConsole({
+                    format : "{{timestamp}} <{{title}}> {{message}} (in {{file}}:{{line}})",
+                    dateformat : "HH:MM:ss.L"
+                });
 
 function connectMongo(callback){
 	MongoClient.connect(url, function(err, db) {
 	 	if(serverFunctions.handleError(err)){
-	     	console.log("We are connected to " + db.databaseName)
+	     	logger.log("We are connected to " + db.databaseName)
 	     	callback(db)
 		}
 	 })
@@ -21,7 +25,7 @@ function connectionToMongoCollection(collectionName, callback){
 	})
 }
 
-function insertOne(data, collection, options){
+function insertOne(data, collection, options, callback){
 	if((typeof options==='Object')&&(!Array.isArray(options))){
 		var options = options
 	}else{
@@ -30,8 +34,9 @@ function insertOne(data, collection, options){
 	connectionToMongoCollection(collection, function(db, col){
 		col.insertOne(data, function(err, item){
 			if(serverFunctions.handleError(err)){
-				console.log('Data inserted')
-				console.log(item.result)
+				logger.log('Data inserted')
+				logger.log(item.result)
+				callback(item)
 			}
 		})
 		db.close()
@@ -47,38 +52,58 @@ function insertOne(data, collection, options){
 
 exports.dataBase={
 	//userdata is {username:username, password:password}
-	createNewUser:function(userData){
-		insertOne(userData, 'users', {options:'options'})
+	createNewUser:function(userData, reqSession){
+		insertOne(userData, 'users', {options:'options'}, function(item){
+			var newUser_id = item.ops[0]._id
+			reqSession.username = userData.username
+			reqSession.logged = true
+			reqSession.mongoID = newUser_id
+			reqSession.save(function(err){
+				if(serverFunctions.handleError(err)){
+					console.log(reqSession)
+					console.log('saved session i think')
+				}
+			})
+		})
 	},
 	loginUser:function(userData){
-
+		logger.log('returning user to be logged in')
+		logger.log(userData)
 	},
 
 
-	findUser:function(userData, callback){
-		var self = this
-		console.log('lets find the user')
-		console.log(userData)
-		connectionToMongoCollection('users', function(db, col){
-			col.findOne(userData, function(err, item){
-				if(serverFunctions.handleError(err)){
-					if(item===null){
-						console.log('user doesnt exist')
-						callback('user doesnt exist, creating new user')
-						self.createNewUser(userData)
-					}else{
-						console.log('user does exist')
-						console.log(item)
-						callback('user does exist')
-						self.loginUser()
+	findUser:function(userData, reqSession, callback){
+var self = this
+logger.log('lets find the user')
+logger.log(userData)
+connectionToMongoCollection('users', function(db, col){
+	col.findOne(userData, function(err, item){
+		if(serverFunctions.handleError(err)){
+			if(item===null){
+				logger.log('user doesnt exist')
+				callback({
+					message:'user doesnt exist, creating new user',
+					item:item,
+					created:true
+				})
+				self.createNewUser(userData, reqSession)
+			}else{
+				logger.log('user does exist')
+				logger.log(item)
+				callback({
+					message:'user does exist, Try another username',
+					created:false,
+					item:item
+				})
+				self.loginUser()
 
-					}	
-				}
-				db.close()
+			}	
+		}
+		db.close()
 
-			})
+	})
 
-		})
+})
 	},
 	connect:function(){
 
@@ -87,7 +112,7 @@ exports.dataBase={
 
 
 exports.init = function(app){
-console.log('IIINNNIIITTTTT DATABSE!!!')
+logger.log('IIINNNIIITTTTT DATABSE!!!')
 	var MongoStore = require('connect-mongo')(session);
 
 	var sessionOptions = {
@@ -98,12 +123,11 @@ console.log('IIINNNIIITTTTT DATABSE!!!')
       // port: 27017
     }),
   secret: 'secret',
-  resave: false,
+  resave: true,
   saveUninitialized: true,
   name:'NEWMAPAPP',
   cookie: {
-  	
-  	httpOnly:false,
+  	httpOnly:true,
   	secure:false,
     maxAge:1000*60*60*24*365//one year
   }
