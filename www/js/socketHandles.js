@@ -14,7 +14,9 @@ console.log(SocketSingleton)
 // }
 
 //testting....
- Gsocket = io.connect('http://192.168.200.93:4444/');
+ // Gsocket = io.connect('http://192.168.200.93:4444/');
+
+ Gsocket = io.connect('https://meetapp.us/');
 
 // var socket = io.connect();
 // Gsocket.emit('userData', userData)

@@ -8,7 +8,7 @@ var userLoginBtnClicked=function(){
 		}
 	helpers.verifyUserLoginData(userData)
 	// $.get('http://192.168.200.93:4444/userLogin', userData)
-	$.get('http://192.168.200.93:4444/userLogin', userData)
+	$.get('https://72.234.40.8/userLogin', userData)
 		.done(function(data){
 			$('#loginResults').text('data')
 		})

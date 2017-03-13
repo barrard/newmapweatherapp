@@ -40,7 +40,8 @@ pushNotificationModule = {
 	         	method:'post',
 	         	data:data,
 	         	dataType:'json',
-	         	url:'http://192.168.200.93:4444/registrationIdPost',
+	         	// url:'http://192.168.200.93:4444/registrationIdPost',
+	         	url:'https://meetapp.us/registrationIdPost',
 	         	complete:function(data){
 	         		console.log(data)
 	         	},
