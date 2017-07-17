@@ -1,4 +1,4 @@
-var production = false;
+var production = true;
 var development = false;
 
 var logger = require('tracer').colorConsole({
